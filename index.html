@@ -1,0 +1,99 @@
+<html>
+
+<head> <!-- background information not displayed on the -->
+    <title>First Page</title>
+    <style>
+        .inner {
+            position: absolute;
+            display: inline-block;
+            font-size: 25px;
+            font-family: 'Times New Roman', Times, serif;
+
+
+
+        }
+
+        #container {
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            position: absolute;
+            left: 25%;
+            bottom: 400px;
+            width: 500px;
+            height: 500px;
+            background-color: beige;
+        }
+
+        #div1 {
+            background-color: aqua;
+            width: 40px;
+            height: 500px;
+            margin-left: 30px;
+            bottom: 0px;
+            color: rgba(158, 7, 158, 0.7);
+            /* top: 400px; */
+            /* margin-top: 20px; */
+        }
+
+        #div2 {
+            background-color: blueviolet;
+            width: 40px;
+            height: 300px;
+            margin-left: 30px;
+            left: 50px;
+            bottom: 0px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+    </style>
+
+    <script>
+        function changebar(barid, text_id ,value){
+            barid.style.height = value + 'px'; 
+            if (value > 20) 
+            {
+                text_id.style.display = 'block'; 
+                text_id.innerHTML = value;
+            }else
+            {
+                text_id.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+
+
+
+
+    <div id="container">
+
+        <label style="position: absolute; top: -75;"> Bar1 </label>
+
+        <input type="number" min="0" max="500" step="5" value="0" style="top:-50; position: absolute;"
+            onclick="changebar(div1, div1inner, this.value)">
+
+        <label style="position: absolute; top: -75; left: 100px;"> Bar2 </label>
+
+        <input type="number" min="0" max="500" step="5" value="0" style="top:-50; position: absolute; left: 100px;"
+            onclick="changebar(div2, div2inner, this.value)">
+
+        <div id="div1" class="inner">
+            
+            <div id="div1inner">
+                
+            </div>
+        </div>
+
+        <div id="div2" class="inner">
+            <div id="div2inner">
+                
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
