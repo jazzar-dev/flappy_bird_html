@@ -11,7 +11,7 @@
         </style>
 
         <script>
-            var start_x = 0; var start_y = 0;
+            var start_x = 200; var start_y = 200;
             function draw_svg(){
                 document.getElementById('points').innerHTML += 'L' + event.pageX + ',' + event.pageY + ' ';
                 var points = document.getElementById('points').innerHTML
@@ -19,14 +19,17 @@
             }
 
             function draw_rect(x, y){
-                document.getElementById('rect').innerHTML = '<svg viewport="-12 -12 1920 1080" width="1920px"; height="1080px"><defs><filter id="shadow" x="-15" y="-20" width="1920px" height="1920px"><feOffset result="offOut" in="SourceAlpha" dx="2" dy="2"/><feGaussianBlur result="blurOut" in="offOut" stdDeviation="2"/><feBlend in="SourceGraphic" in2="blurOut"/></filter></defs><polygon points="10,10 ' + x + ',10 ' + x + ',' + y + ' 10,' + y  + '"; stroke="#00F"; stroke-width="3px"; fill="none"; filter="url(#shadow)"/></svg>'
+                document.getElementById('rect').innerHTML = '<svg viewport="-12 -12 1920 1080" width="1920px"; height="1080px"><defs><filter id="shadow" x="-15" y="-20" width="1920px" height="1920px"><feOffset result="offOut" in="SourceAlpha" dx="2" dy="2"/><feGaussianBlur result="blurOut" in="offOut" stdDeviation="2"/><feBlend in="SourceGraphic" in2="blurOut"/></filter></defs><polygon points="'+ start_x + ','+ start_y+' '  + x + ','+ start_y + ' '  + x + ','  + y + ' '+start_y+','  +  y  + '"; stroke="#00F"; stroke-width="3px"; fill="none"; filter="url(#shadow)"/></svg>'
+            }
+            function draw_hex(x, y){
+                document.getElementById('rect').innerHTML = '<svg viewport="-12 -12 1920 1080" width="1920px"; height="1080px"><defs><filter id="shadow" x="-15" y="-20" width="1920px" height="1920px"><feOffset result="offOut" in="SourceAlpha" dx="2" dy="2"/><feGaussianBlur result="blurOut" in="offOut" stdDeviation="2"/><feBlend in="SourceGraphic" in2="blurOut"/></filter></defs><polygon points="'+ start_x + ','+ start_y+' '  + x + ','+ start_y + ' ' + (x + 100)  + ',' + (y + start_y) / 2 + ' ' + x + ','  + y + ' '+start_x+','  +  y  + ' ' + (start_x - 100) + ',' + (y + start_y) / 2 + '"; stroke="#00F"; stroke-width="3px"; fill="none"; filter="url(#shadow)"/></svg>'
             }
         </script>
 
     </head>
 
 <body>
-    <div style="width: 1920; height: 1080; background-color: blanchedalmond; " onclick="draw_svg(); var start_x = event.pageX; var start_y = event.pageY; draw_rect(event.pageX, event.pageY);" onmousemove="draw_rect(event.pageX, event.pageY)"> 
+    <div style="width: 1920; height: 1080; background-color: blanchedalmond; " onclick="start_x = event.pageX; start_y = event.pageY;  draw_hex(event.pageX, event.pageY);" onmousemove="draw_hex(event.pageX, event.pageY)"> 
 
         <div id="points" style="display: none;">
 
