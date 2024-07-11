@@ -17,6 +17,7 @@
                 start: function(){
                     this.canvas.width = 480;
                     this.canvas.height = 270;
+
                     this.canvas.context = this.canvas.getContext('2d');
                     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
                     this.frame_number = 0;
@@ -33,26 +34,64 @@
                 this.height = height;
                 this.x = x;
                 this.y = y;
+                this.gravity = 0;
+                this.gravity_speed = 0;
+                this.speed_x = 0;
+                this.speed_y = 0;
+                this.new_pos = function(){
+                    this.gravity_speed += this.gravity;
+                    this.hit_bottom();
+                    this.x += this.speed_x;
+                    this.y += this.speed_y + this.gravity_speed;
+
+                };
                 this.update = function(){
                     ctx = game_area.canvas.context;
                     ctx.fillStyle = color;
                     ctx.fillRect(this.x, this.y, this.width, this.height);
+                };
+                this.hit_bottom = function(){
+                    var rock_bottom = game_area.canvas.height - this.height;
+                    if (this.y > rock_bottom){
+                        this.gravity_speed = 0;
+                        this.y = rock_bottom
+                    }
+                    
                 }
+
             }
             function start_game(){
                 document.getElementById('start').style.display = 'none';
                 document.getElementById('accelerate').style.display = 'block';
                 document.getElementById('restart').style.display = 'block';
-                bird = new component(50, 50, 'red', 10, 120, 'bird');
+                bird = new component(20, 20, 'red', 10, 120, 'bird');
+                bird.gravity = 0.05;
                 game_area.start();
             }
 
             function update_game_area(){
-                var x;
-                var height;
-                var gap;
+                var x, height, gap, min_height, max_height, min_gap, max_gap;
+
                 game_area.clear();
                 game_area.frame_number++;
+                if (game_area.frame_number == 1 || (game_area.frame_number / 150) % 1 == 0){
+                    min_height = 20;
+                    max_height = 200;
+                    min_gap = 50;
+                    max_gap = 200;
+                    height = Math.floor(Math.random() * (max_height - min_height + 1) + min_height);
+                    x = game_area.canvas.width;
+                    gap = Math.floor(Math.random() * (max_gap - min_gap + 1) + min_gap)
+                    pipes.push(new component(10, height, 'green', x, 0, 'pipe'))
+                    pipes.push(new component(10, x - height - gap, 'green', x, height + gap, 'pipe'))
+                }
+
+                for (let i = 0; i < pipes.length; i++){
+                    pipes[i].x -= 1;
+                    pipes[i].update();  
+                }
+
+                bird.new_pos();     
                 bird.update();
             }
 
@@ -64,6 +103,9 @@
                 game_area.clear();
                 
             }
+            function accelerate(n){
+                bird.gravity = n;
+            }
         </script>
     </head>
 
@@ -71,7 +113,7 @@
 
         <button class="button" id="start" onclick="start_game()">start</button>
         <!-- <div style="height: 1080; width: 1920px;; background-color: blanchedalmond; "></div> -->
-        <button class="button" id="accelerate" style="display: none;">accelerate</button>
+        <button class="button" id="accelerate" style="display: none;" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">accelerate</button>
         <br>
         <button class="button" id="restart" style="display: none;" onclick="end_game()">restart</button>
 
