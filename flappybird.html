@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>Flappy bird</title>
+        <style>
+            .button{
+                font-size: 40px;
+                background-color: aqua;
+            }
+        </style>
+
+        <script>
+            var bird;
+            var score;
+            var pipes = [];
+            var game_area = {
+                canvas: document.createElement('canvas'),
+                start: function(){
+                    this.canvas.width = 480;
+                    this.canvas.height = 270;
+                    this.canvas.context = this.canvas.getContext('2d');
+                    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                    this.frame_number = 0;
+                    this.interval_rate = setInterval(update_game_area, 20);
+                },
+                clear: function(){
+                    this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+                }
+            }
+
+            function component(width, height, color, x, y, type){
+                this.type = type;
+                this.width = width;
+                this.height = height;
+                this.x = x;
+                this.y = y;
+                this.update = function(){
+                    ctx = game_area.canvas.context;
+                    ctx.fillStyle = color;
+                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                }
+            }
+            function start_game(){
+                document.getElementById('start').style.display = 'none';
+                document.getElementById('accelerate').style.display = 'block';
+                document.getElementById('restart').style.display = 'block';
+                bird = new component(50, 50, 'red', 10, 120, 'bird');
+                game_area.start();
+            }
+
+            function update_game_area(){
+                var x;
+                var height;
+                var gap;
+                game_area.clear();
+                game_area.frame_number++;
+                bird.update();
+            }
+
+
+            function end_game(){
+                document.getElementById('start').style.display = 'block';
+                document.getElementById('accelerate').style.display = 'none';
+                document.getElementById('restart').style.display = 'none';
+                game_area.clear();
+                
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <button class="button" id="start" onclick="start_game()">start</button>
+        <!-- <div style="height: 1080; width: 1920px;; background-color: blanchedalmond; "></div> -->
+        <button class="button" id="accelerate" style="display: none;">accelerate</button>
+        <br>
+        <button class="button" id="restart" style="display: none;" onclick="end_game()">restart</button>
+
+
+    </body>
+
+
+</html>
+
+
+
+
